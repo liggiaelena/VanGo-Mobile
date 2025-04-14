@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BotaoVanGO">
+        <item name="android:background">@drawable/botao_vango</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <string name="trip_list_description">List of trips available for the selected day</string>
+</resources>
