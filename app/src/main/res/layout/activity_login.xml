@@ -12,9 +12,10 @@
         android:id="@+id/btnVoltar"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_back"
+        android:src="@drawable/ic_arrow_back"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@color/black" />
 
     <TextView
         android:id="@+id/txtTitulo"
@@ -45,7 +46,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
-        android:background="@drawable/button_round"
+        android:background="@drawable/btn_white_border_gray"
         android:hint="Digite o seu e-mail"
         android:inputType="textEmailAddress"
         android:padding="12dp"
@@ -71,7 +72,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/button_round"
+        android:background="@drawable/btn_white_border_gray"
         android:hint="Digite a sua senha"
         android:inputType="textPassword"
         android:padding="12dp"
@@ -82,7 +83,7 @@
 
     <android.widget.Button
         android:id="@+id/btnEntrarLogin"
-        style="@style/BotaoVanGO"
+        style="@style/BtnPrimaryColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"

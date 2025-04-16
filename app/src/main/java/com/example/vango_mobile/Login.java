@@ -43,7 +43,7 @@ public class Login extends AppCompatActivity {
             String pass = editPassword.getText().toString();
 
             if ("admin".equals(user) && "123".equals(pass)) {
-                Intent intent = new Intent(Login.this, Home.class);
+                Intent intent = new Intent(Login.this, Search.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Usuário ou senha inválidos", Toast.LENGTH_SHORT).show();

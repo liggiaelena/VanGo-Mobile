@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="BotaoVanGO">
-        <item name="android:background">@drawable/botao_vango</item>
+    <style name="BtnPrimaryColor">
+        <item name="android:background">@drawable/btn_yellow_round</item>
         <item name="android:backgroundTint">@null</item>
         <item name="android:textColor">#000000</item>
         <item name="android:padding">12dp</item>
