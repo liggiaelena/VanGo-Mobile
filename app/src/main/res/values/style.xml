@@ -7,6 +7,4 @@
         <item name="android:padding">12dp</item>
         <item name="android:textAllCaps">false</item>
     </style>
-
-    <string name="trip_list_description">List of trips available for the selected day</string>
 </resources>

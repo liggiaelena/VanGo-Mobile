@@ -3,4 +3,5 @@
     <string name="entrar">Entrar</string>
     <string name="esqueceu_a_senha">Esqueceu a senha?</string>
     <string name="lembrar">Lembrar</string>
+    <string name="trip_list_description">Lista de viagens disponíveis</string>
 </resources>

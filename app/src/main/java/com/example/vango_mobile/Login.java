@@ -1,5 +1,7 @@
 package com.example.vango_mobile;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.content.Intent;
@@ -9,13 +11,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 public class Login extends AppCompatActivity {
-    private EditText editUser, editPassword;
+    EditText editTextEmail, editTextPassword;
     private Button btnLogin;
 
     @Override
@@ -34,20 +39,54 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
         });
 
-        editUser = findViewById(R.id.edtEmail);
-        editPassword = findViewById(R.id.edtSenha);
+        editTextEmail = findViewById(R.id.edtEmail);
+        editTextPassword = findViewById(R.id.edtSenha);
         btnLogin = findViewById(R.id.btnEntrarLogin);
 
         btnLogin.setOnClickListener(v -> {
-            String user = editUser.getText().toString();
-            String pass = editPassword.getText().toString();
+            String email = editTextEmail.getText().toString().trim();
+            String password = editTextPassword.getText().toString().trim();
 
-            if ("admin".equals(user) && "123".equals(pass)) {
-                Intent intent = new Intent(Login.this, Search.class);
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, "Usuário ou senha inválidos", Toast.LENGTH_SHORT).show();
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            String json = "{\"email\":\"" + email + "\",\"senha\":\"" + password + "\"}";
+
+            HttpRequestHelper.makeRequest("http://10.0.2.2:3000/login", "POST", json, new HttpRequestHelper.ResponseCallback() {
+                @Override
+                public void onSuccess(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        int userId = jsonObject.getInt("id");
+
+                        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+                        prefs.edit().putInt("userId", userId).apply();
+
+                        runOnUiThread(() -> {
+                            Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(Login.this, Search.class);
+                            startActivity(intent);
+                            finish();
+                        });
+
+                    } catch (Exception e) {
+                        Log.e("LOGIN_PARSE", "Error parsing login response", e);
+                        runOnUiThread(() ->
+                                Toast.makeText(Login.this, "Invalid response from server", Toast.LENGTH_SHORT).show()
+                        );
+                    }
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.e("LOGIN_ERROR", "Login request failed", e);
+                    runOnUiThread(() ->
+                            Toast.makeText(Login.this, "Login failed", Toast.LENGTH_SHORT).show()
+                    );
+                }
+            });
         });
     }
 }
