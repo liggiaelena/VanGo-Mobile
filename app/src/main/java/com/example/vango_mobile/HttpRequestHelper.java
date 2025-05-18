@@ -1,11 +1,9 @@
 package com.example.vango_mobile;
 
-import android.os.AsyncTask;
-import android.util.Log;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 public class HttpRequestHelper {
 
     public interface ResponseCallback {
@@ -14,55 +12,46 @@ public class HttpRequestHelper {
     }
 
     public static void makeRequest(String urlString, String method, String jsonBody, ResponseCallback callback) {
-        new AsyncTask<Void, Void, String>() {
-            Exception exception = null;
+        new Thread(() -> {
+            HttpURLConnection connection = null;
+            try {
+                URL url = new URL(urlString);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod(method);
+                connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                connection.setRequestProperty("Accept", "application/json");
+                connection.setConnectTimeout(5000);
+                connection.setReadTimeout(5000);
+                connection.setDoInput(true);
 
-            @Override
-            protected String doInBackground(Void... voids) {
+                if ("POST".equalsIgnoreCase(method) && jsonBody != null) {
+                    connection.setDoOutput(true);
+                    try (OutputStream os = connection.getOutputStream()) {
+                        byte[] input = jsonBody.getBytes("utf-8");
+                        os.write(input, 0, input.length);
+                    }
+                }
+
+                int responseCode = connection.getResponseCode();
+                InputStream is = (responseCode >= 200 && responseCode < 300)
+                        ? connection.getInputStream()
+                        : connection.getErrorStream();
+
                 StringBuilder response = new StringBuilder();
-                try {
-                    URL url = new URL(urlString);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod(method);
-                    connection.setRequestProperty("Content-Type", "application/json");
-                    connection.setConnectTimeout(5000);
-                    connection.setReadTimeout(5000);
-
-                    if (method.equals("POST") && jsonBody != null) {
-                        connection.setDoOutput(true);
-                        OutputStream os = connection.getOutputStream();
-                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                        writer.write(jsonBody);
-                        writer.flush();
-                        writer.close();
-                        os.close();
-                    }
-
-                    int responseCode = connection.getResponseCode();
-                    InputStream inputStream = responseCode >= 400 ? connection.getErrorStream() : connection.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"))) {
                     String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
+                    while ((line = br.readLine()) != null) {
+                        response.append(line.trim());
                     }
-
-                    reader.close();
-                    connection.disconnect();
-                } catch (Exception e) {
-                    exception = e;
                 }
 
-                return response.toString();
-            }
+                callback.onSuccess(response.toString());
 
-            @Override
-            protected void onPostExecute(String result) {
-                if (exception != null) {
-                    callback.onError(exception);
-                } else {
-                    callback.onSuccess(result);
-                }
+            } catch (Exception e) {
+                callback.onError(e);
+            } finally {
+                if (connection != null) connection.disconnect();
             }
-        }.execute();
+        }).start();
     }
 }

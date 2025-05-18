@@ -69,7 +69,7 @@ public class SearchLocationActivity extends AppCompatActivity {
     }
 
     private void fetchSuggestions(String query) {
-        String url = "http://10.0.2.2:3000/destination?q=" + query;
+        String url = "http://10.0.2.2:3008/destination?q=" + query;
 
         HttpRequestHelper.makeRequest(url, "GET", null, new HttpRequestHelper.ResponseCallback() {
             @Override

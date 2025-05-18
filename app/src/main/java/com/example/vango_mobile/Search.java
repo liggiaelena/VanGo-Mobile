@@ -136,7 +136,7 @@ public class Search extends AppCompatActivity {
         if (userId == -1) return;
 
         String url = String.format(
-                "http://10.0.2.2:3000/v1/trips/passenger?id=%d&date=%s&destination_to=%s&destination_from=%s&one-way-trip=%b",
+                "http://10.0.2.2:3008/v1/trips/passenger?id=%d&date=%s&destination_to=%s&destination_from=%s&one-way-trip=%b",
                 userId, selectedDate, selectedToId, selectedFromId, isOneWay
         );
 
@@ -154,8 +154,11 @@ public class Search extends AppCompatActivity {
                             String origin = tripJson.getJSONObject("destiny_from").getString("label");
                             String destination = tripJson.getJSONObject("destiny_to").getString("label");
                             String arrivalTime = tripJson.getString("horario_de_chegada");
+                            int spotsAvailable = tripJson.getInt("spots_available");
+                            double price = tripJson.getDouble("price");
+                            String tripType = tripJson.getString("trip_type");
 
-                            trips.add(new Trip(origin, destination, arrivalTime));
+                            trips.add(new Trip(origin, destination, arrivalTime, spotsAvailable, price, tripType));
                         }
 
                         TripAdapter tripAdapter = new TripAdapter(trips);

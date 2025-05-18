@@ -1,24 +1,18 @@
 package com.example.vango_mobile;
 public class Trip {
-    private String origin;
-    private String destination;
-    private String arrivalTime;
+    public String origin;
+    public String destination;
+    public String arrivalTime;
+    public int spotsAvailable;
+    public double price;
+    public String tripType;
 
-    public Trip(String origin, String destination, String arrivalTime) {
+    public Trip(String origin, String destination, String arrivalTime, int spotsAvailable, double price, String tripType) {
         this.origin = origin;
         this.destination = destination;
         this.arrivalTime = arrivalTime;
-    }
-
-    public String getOrigin() {
-        return origin;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public String getArrivalTime() {
-        return arrivalTime;
+        this.spotsAvailable = spotsAvailable;
+        this.price = price;
+        this.tripType = tripType;
     }
 }

@@ -54,7 +54,7 @@ public class Login extends AppCompatActivity {
 
             String json = "{\"email\":\"" + email + "\",\"senha\":\"" + password + "\"}";
 
-            HttpRequestHelper.makeRequest("http://10.0.2.2:3000/login", "POST", json, new HttpRequestHelper.ResponseCallback() {
+            HttpRequestHelper.makeRequest("http://10.0.2.2:3008/login", "POST", json, new HttpRequestHelper.ResponseCallback() {
                 @Override
                 public void onSuccess(String response) {
                     try {
