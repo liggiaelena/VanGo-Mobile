@@ -60,13 +60,22 @@ public class Login extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         int userId = jsonObject.getInt("id");
+                        String typeEntity = jsonObject.getString("typeEntity");
 
                         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-                        prefs.edit().putInt("userId", userId).apply();
+                        prefs.edit()
+                                .putInt("userId", userId)
+                                .putString("userType", typeEntity)
+                                .apply();
 
                         runOnUiThread(() -> {
                             Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(Login.this, Search.class);
+                            Intent intent;
+                            if (typeEntity.equals("D")) {
+                                intent = new Intent(Login.this, MainMotoristActivity.class);
+                            } else {
+                                intent = new Intent(Login.this, Search.class);
+                            }
                             startActivity(intent);
                             finish();
                         });

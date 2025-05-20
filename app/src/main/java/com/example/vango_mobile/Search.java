@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.*;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.internal.TextWatcherAdapter;
 
 import org.json.JSONArray;
@@ -59,6 +60,24 @@ public class Search extends AppCompatActivity {
         // No onCreate
         initViews();
         setupListeners();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_search);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_trips) {
+                startActivity(new Intent(this, MyTrips.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(this, ProfileActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return true; // para o botão atual (Buscar)
+        });
+
         recyclerTrips.setLayoutManager(new LinearLayoutManager(this));
     }
 

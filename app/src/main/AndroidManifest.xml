@@ -17,6 +17,24 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ProfileMotoristActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HistoryMotorist"
+            android:exported="false" />
+        <activity
+            android:name=".MainMotoristActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyTripActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyTrips"
+            android:exported="false" />
+        <activity
             android:name=".TripConfirmationActivity"
             android:exported="false" />
         <activity
