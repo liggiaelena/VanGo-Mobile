@@ -15,10 +15,13 @@ import java.util.List;
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder> {
 
     private List<Trip> tripList;
+    private Class<?> destinationActivity;
 
-    public TripAdapter(List<Trip> tripList) {
+    public TripAdapter(List<Trip> tripList, Class<?> destinationActivity) {
         this.tripList = tripList;
+        this.destinationActivity = destinationActivity;
     }
+
 
     @NonNull
     @Override
@@ -46,13 +49,16 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
         // Glide.with(holder.itemView.getContext()).load("URL_DA_IMAGEM" + trip.photoVan).into(holder.vanImageView);
         // Glide.with(holder.itemView.getContext()).load("URL_DA_IMAGEM" + trip.photoDriver).into(holder.driverImageView);
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), TripConfirmationActivity.class);
-            intent.putExtra("route", trip.origin + " → " + trip.destination);
-            intent.putExtra("arrivalTime", trip.arrivalTime);
-            intent.putExtra("spots", trip.spotsAvailable);
-            intent.putExtra("price", trip.price);
-            intent.putExtra("tripType", trip.tripType);
-            holder.itemView.getContext().startActivity(intent);
+            if (destinationActivity != null) {
+                Intent intent = new Intent(holder.itemView.getContext(), destinationActivity);
+                // Aqui você pode passar dados, se quiser
+                intent.putExtra("route", trip.origin + " → " + trip.destination);
+                intent.putExtra("arrivalTime", trip.arrivalTime);
+                intent.putExtra("spots", trip.spotsAvailable);
+                intent.putExtra("price", trip.price);
+                intent.putExtra("tripType", trip.tripType);
+                holder.itemView.getContext().startActivity(intent);
+            }
         });
     }
 

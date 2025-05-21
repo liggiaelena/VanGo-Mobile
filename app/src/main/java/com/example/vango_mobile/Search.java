@@ -180,8 +180,9 @@ public class Search extends AppCompatActivity {
                             trips.add(new Trip(origin, destination, arrivalTime, spotsAvailable, price, tripType));
                         }
 
-                        TripAdapter tripAdapter = new TripAdapter(trips);
+                        TripAdapter tripAdapter = new TripAdapter(trips, TripConfirmationActivity.class);
                         recyclerTrips.setAdapter(tripAdapter);
+
 
                     } catch (Exception e) {
                         Toast.makeText(Search.this, "Erro ao processar viagens", Toast.LENGTH_SHORT).show();

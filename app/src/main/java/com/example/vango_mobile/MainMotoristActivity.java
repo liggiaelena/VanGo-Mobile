@@ -81,7 +81,7 @@ public class MainMotoristActivity extends AppCompatActivity {
             return;
         }
 
-        String url = "http://10.0.2.2:8080/v1/driver/trips/" + driverId;
+        String url = "http://10.0.2.2:3008/v1/driver/trips/" + driverId;
 
         HttpRequestHelper.makeRequest(url, "GET", null, new HttpRequestHelper.ResponseCallback() {
             @Override
